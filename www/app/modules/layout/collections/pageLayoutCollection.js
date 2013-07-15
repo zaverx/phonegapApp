@@ -7,16 +7,27 @@ function(backbone,PageLayoutModel) {
 
   	return Backbone.Collection.extend({
         model:PageLayoutModel,
-        url : './server/classes/requestNews.php',
+        url : './json/results.json',
+       // url : './server/controler/controler.php',
 	    getData : function() {
+	        
             this.fetch({
-                dataType:'text'
+                dataType : "json",
+                error : function(response,xhr){
+                    //console.log(response)
+                    console.log(xhr.responseText, xhr.statusText)
+                },
+                success : function(){
+                    console.log('success')
+                }
                 
             });
+           
 	    },
         parse :function(response){
-            var x = JSON.parse(response)
-            console.log(response.toJSON());
+            
+            return response;
+           
         }
 
     });

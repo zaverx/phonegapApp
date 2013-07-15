@@ -1,23 +1,31 @@
 define([
-    'backbone'
+    'backbone',
+    'tpl!templates/tabs.html',
+    'tpl!templates/hero.html'
 ],
 	
-	function(backbone) {
+	function(backbone,tabs,hero) {
 
   	return Backbone.View.extend({
-        el             : "#page-wrapper",
-        template       : "layout",
-        
-				
+        template:tabs,				
 	    initialize : function() {
-            this.listenTo(this.collection, "sync", this.onrender);
+            this.listenTo(this.collection, "sync", this.onRender);
 	    },
-        onrender : function(){
-            
-          //console.log(this.collection);
-          return {};  
-            
-        }
+	    onRender : function(){
+	        
+	        $('#hero').css({
+	            "background-image":"url('"+this.collection.toJSON()[1].hero+"')",
+	        }).html(hero({
+	            title:this.collection.toJSON()[1].title
+	        }));
+	        
+	       $('#tab-content').html(this.template({
+                response: this.collection.toJSON()
+                
+            }));  
+	        
+	    }
+       
     });
 
 });
