@@ -1,33 +1,55 @@
 <?php
-
-
+header('Content-Type: text/html; charset=utf-8');
+include '../classes/simple_html_dom.php';
 class requestNews{
-	 	
+	/* $feed_array= array(
+         "http://feeds.feedburner.com/skai/Uulu?format=xml",
+         "http://www.real.gr/Rss.aspx?pid=143",
+         "http://www.newsbeast.gr/feeds/home",
+         "http://ws.kathimerini.gr/xml_files/news.xml",
+         "http://www.enet.gr/rss?i=news.el.article",
+         "http://www.protothema.gr/rss/news/general/",
+         "http://www.tovima.gr/feed/allnews/",
+         "http://www.rizospastis.gr/wwwengine/rssFeed.do?channel=Top",
+         
+     );*/
 	 function __construct(){
 	 	$this->html = new simple_html_dom();
 	 	
 	 }
 	 
-	function makeRequest(){
-			
-		$ch = curl_init("http://feeds.feedburner.com/skai/Uulu?format=xml");
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-		
-		$data = curl_exec($ch);
-		curl_close($ch);
+    
+    function multiple_threads_request($nodes){ 
+        $mh = curl_multi_init(); 
+        $curl_array = array(); 
+        foreach($nodes as $i => $url) 
+        { 
+            $curl_array[$i] = curl_init($url); 
+            curl_setopt($curl_array[$i], CURLOPT_RETURNTRANSFER, true); 
+            curl_multi_add_handle($mh, $curl_array[$i]); 
+        } 
+        $running = NULL; 
+        do { 
+            
+            curl_multi_exec($mh,$running); 
+        } while($running > 0); 
+        
+        $res = array(); 
+        foreach($nodes as $i => $url) 
+        { 
+            $res[$i] = curl_multi_getcontent($curl_array[$i]); 
+        } 
+        
+        foreach($nodes as $i => $url){ 
+            curl_multi_remove_handle($mh, $curl_array[$i]); 
+        } 
+        curl_multi_close($mh);        
+        return $res; 
+    } 
+    
+    
 
-		$doc = new SimpleXmlElement($data, LIBXML_NOCDATA);
-	
-		if(isset($doc->channel)){
-		   return $this->parseRSS($doc);
-		}
-		if(isset($doc->entry)){
-		   return $this->parseAtom($doc);
-		}
-	}
-
-	function parseRSS($xml){
+	function parseRSS($xml,$key){
 		
 		
 	    $cnt = count($xml->channel->item);
@@ -38,7 +60,18 @@ class requestNews{
 			$url   = $xml->channel->item[$i]->link;
 			$title = $xml->channel->item[$i]->title;
 			$desc  = $xml->channel->item[$i]->description;
-			$hero  = $this->extractImageElem($desc);
+            
+            switch ($key)
+            {
+            case "newsbeast.gr":
+              $hero  = "http://www.newsbeast.gr/".$this->extractImageElem($desc);
+              break;
+            case "protothema.gr":
+              $hero  = $xml->channel->item[$i]->image;
+              break;
+            default:
+              $hero  = $this->extractImageElem($desc);
+            }
 			
 			$itemArray[$i] = array("url"=>"$url", "title"=>"$title", "desc"=>"$desc","hero"=>"$hero");
 			
@@ -84,3 +117,38 @@ class requestNews{
 	}
 
 }
+
+$news = new requestNews();
+
+$feed_array= array(
+         "skai.gr" =>"http://feeds.feedburner.com/skai/Uulu?format=xml",
+         "real.gr"=>"http://www.real.gr/Rss.aspx?pid=143",
+         "newsbeast.gr" =>"http://www.newsbeast.gr/feeds/home",
+         "kathimerini.gr" =>"http://ws.kathimerini.gr/xml_files/enews.xml",
+         "enet.gr" =>"http://www.enet.gr/rss?i=news.el.article",
+         "protothema.gr" =>"http://www.protothema.gr/rss/news/general/",
+         "tovima.gr" =>"http://www.tovima.gr/feed/allnews/",
+         "rizospastis.gr" =>"http://www.rizospastis.gr/wwwengine/rssFeed.do?channel=Top",
+         "metrogreece.gr" =>"http://www.metrogreece.gr/Rss/tabid/90/rssid/2/Default.aspx",
+         "lifo.gr" =>"http://www.lifo.gr/blogs.rss"
+     );
+echo "<pre>";
+$res = $news->multiple_threads_request($feed_array);
+$results = array();
+
+
+foreach($res as $key=>$val){
+    $doc = new SimpleXmlElement($val, LIBXML_NOCDATA);
+    $results[$key] = $news->parseRSS($doc,$key);
+    
+}
+$fp = fopen('../../json/results.json', 'w');
+fwrite($fp, json_encode($results));
+fclose($fp);
+
+
+
+
+print_r($res); 
+echo "</pre>";
+?>

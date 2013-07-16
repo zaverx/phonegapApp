@@ -1,8 +1,11 @@
-<div class="row-header">SKAI.GR</div>
+<% for(var j=0; j < rows.length; j++){
+		
+	%>
+<div class="row-header"><%=rows[j]%></div>
 <div class="tab-content">
 <ul class="floated-list" style="position:absolute;">
-	<% for(var i=0; i < response.length; i++){
-		var img =response[i].hero;
+	<% for(var i=0; i < response[rows[j]].length; i++){
+		var img =response[rows[j]][i].hero;
 	%>
 		<li class="row-item"><img width="80" height="80" src="<%=img%>"/> </li>
 	<%	
@@ -11,3 +14,4 @@
 	
 </ul>
 </div>
+    <% } %>
