@@ -23,11 +23,12 @@
 </head>
 
 <body>
-<div id="page-wrapper">
-	<div id="page-menu"><div id="options"></div></div>
-	<div id="hero" class="mo"></div>
-	<div id="tab-content" class="mo"></div>
+<div id="page-menu"><div id="options"></div></div>
+<div id="page-wrapper" class="v-scroll">
+	<div id="hero"></div>
+	<div id="tab-content" class="h-scroll"></div>
 </div>
+    <div id="article-wrapper" class="wrapword v-scroll"></div>
   <!-- Application container. -->
 
   <main role="main" id="main"></main>
@@ -37,7 +38,7 @@
     <!--(if target dummy)><!-->
     <script data-main="app/config" src="vendor/js/libs/require.js"></script>
     
-   <script src="cordova.js"></script>
+    <script src="cordova.js"></script> 
     
     <!--<!(endif)-->
 

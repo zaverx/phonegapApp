@@ -11,16 +11,57 @@ body, html {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
-
-#hero{
-    width:100%;
-    height:75%;
-    background:#000;
-    color:#6D0019;
-    background-repeat:no-repeat;
-    background-position:center;
-    background-size:cover;
+.v-scroll {
+    overflow-x:hidden;    
+    overflow-y:auto;    
+    -webkit-overflow-scrolling: touch;
 }
+
+.h-scroll {
+    overflow-x:auto;    
+    overflow-y:hidden;    
+    -webkit-overflow-scrolling: touch;
+}
+
+.floated-list{
+    margin:0;
+    padding:0;
+    list-style: none;
+    white-space:nowrap;
+}
+
+.floated-list li{
+    float:left;
+    margin-right:10px;
+}
+
+.float-left{
+    float:left;
+}
+.wrapword {
+    white-space: -moz-pre-wrap !important;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    white-space: pre-wrap;
+    white-space: normal;
+}
+
+/****************************
+* PAGE WRAPPER
+****************************/
+
+#page-wrapper{
+    width:100%;
+    min-height:100%;
+    height:auto;
+    height:100%;
+ 
+}
+
+
+/****************************
+* PAGE MENU
+****************************/
 
 #page-menu{
     width:100%;
@@ -43,9 +84,21 @@ body, html {
     background-position:center;
 }
 
+/****************************
+* HERO
+****************************/
+#hero{
+    width:100%;
+    height:75%;
+    background:#666;
+    color:#6D0019;
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:cover;
+}
+
 #hero-title{
     color:#fff;
-    
     height:100px;
     width:90%;
     position:absolute;
@@ -55,76 +108,79 @@ body, html {
     font-size: 26px;
     font-weight: bold;
     text-shadow: 1px 1px 1px #666;
+    overflow: hidden;
+    height:96px;
 }
 
-.scroll {
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    -webkit-overflow-scrolling: touch;
-}
-
-#page-wrapper{
-    width:100%;
-    min-height:100%;
-    height:auto;
-    height:100%;
-}
-
-.floated-list{
-    margin:0;
-    padding:0;
-    list-style: none;
-    white-space:nowrap;
-}
-
-
-.tab-content{
-    width:100%;
-    height:auto;
-    min-height:90px;
-    background:#333;
-    position:relative;
-    overflow-x: auto;
-    overflow-y: hidden !important;
-    -webkit-overflow-scrolling: touch;
-    line-height: 90px;
-    padding-left:5px
-}
-
-
-.floated-list li{
-    float:left;
-    margin-right:10px;
-}
-
+/****************************
+* ROW
+****************************/
 .row-item{
-    border:#888 2px solid;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
     overflow:hidden;
     height:80px;
     display:inline;
-    margin-top:3px;
+    background-color:#555;
 }
 
 
 .row-header{
-    
-    background: #802420; 
-    background: -moz-linear-gradient(top,  #802420 0%, #8f0222 44%, #6d0019 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#802420), color-stop(44%,#8f0222), color-stop(100%,#6d0019)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #802420 0%,#8f0222 44%,#6d0019 100%); /* Chrome10+,Safari5.1+ */
-    background: linear-gradient(to bottom,  #802420 0%,#8f0222 44%,#6d0019 100%); /* W3C */
-   
+    background:#333; 
     height:30px;
     width:100%;
     line-height: 30px;
-    color:#ccc;
+    color:#f6f6f6;
     padding-left:5px;
     font-weight:bold;
-   
-    text-transform:uppercase;
+    font-size:12px;
+    
     /* text-shadow: 1px 1px 1px #aaa; */
-     text-shadow:#111 0px 1px 0, #333 0 -1px 0;
+     /* text-shadow:#111 0px 1px 0, #f8f8f8 0 -1px 0; */
 }
+
+/****************************
+* TABS
+****************************/
+
+.tab-content{
+    width:100%;
+    height:auto;
+    min-height:80px;
+    background:#333;
+    position:relative;
+   
+    line-height: 80px;
+    padding-left:5px
+}
+
+/****************************
+* ARTICLE IFRAME
+****************************/
+#article-wrapper,
+#article-frame{
+    width:100%;
+    height:100%;
+    position:absolute;
+    left:100%;
+    top:0;
+    z-index:3;    
+    
+}
+
+#article-wrapper{
+    background-color:#fff;
+    font-size:12px;
+    word-wrap: break-word;
+    text-align:left;
+    padding:10px;
+}
+
+#article-frame {
+    zoom: 0.75;
+    -moz-transform: scale(0.75);
+    -moz-transform-origin: 0 0;
+    -o-transform: scale(0.75);
+    -o-transform-origin: 0 0;
+    -webkit-transform: scale(0.75);
+    -webkit-transform-origin: 0 0;
+}
+

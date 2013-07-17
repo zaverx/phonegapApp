@@ -13,6 +13,7 @@ function(app, PageLayout, PageLayoutCollection, PageLayoutTpl) {
       "": "index"
     },
     initialize : function(){
+        
       this.layout = new PageLayout({collection:new PageLayoutCollection()});
       this.index();
       

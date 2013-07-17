@@ -6,8 +6,9 @@
 <ul class="floated-list" style="position:absolute;">
 	<% for(var i=0; i < response[rows[j]].length; i++){
 		var img =response[rows[j]][i].hero;
+        var itmId =response[rows[j]][i].itemId;
 	%>
-		<li class="row-item"><img width="80" height="80" src="<%=img%>"/> </li>
+		<li class="row-item" data-itemid="<%=itmId%>"><img width="80" height="80" src="<%=img%>"/> </li>
 	<%	
 	} 
 	%>
