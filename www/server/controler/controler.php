@@ -6,21 +6,29 @@ include '../models/requestNews.php';
 
 class Controller {
 
-	public function __construct($flag,$url) {
+	public function __construct($flag,$url,$key) {
         
         $this->news = new requestNews();
         switch ($flag)
             {
             case "article":
-              $results = $this->news->getContent($url);
+              $results = $this->news->getContent($url,$key);
               echo json_encode($results);
               break;
             case "protothema.gr":
               
               break;
             default:
+            /*
+              $url="http://www.real.gr/?page=arthro&id=248704&catID=14";
+              $results = $this->news->getContent($url,"real.gr");
+            echo "<pre>"; print_r($results); echo"</pre>";
+            */
+             // echo json_encode($results);
+            
              $results = $this->makeRequest();
              echo json_encode($results);
+             
              
         }
         
@@ -29,6 +37,7 @@ class Controller {
     function makeRequest(){
         
         $feed_array= array(
+             "info-war.gr"=>"http://info-war.gr/feed/",
              "real.gr"=>"http://www.real.gr/Rss.aspx?pid=143",
              "newsbeast.gr" =>"http://www.newsbeast.gr/feeds/home",
              "kathimerini.gr" =>"http://ws.kathimerini.gr/xml_files/enews.xml",
@@ -46,6 +55,7 @@ class Controller {
 }
 $flag = @$_POST['flag'];
 $lnk = @$_POST['lnk'];
-$controller = new Controller($flag,$lnk);
+$key = @$_POST['key'];
+$controller = new Controller($flag,$lnk,$key);
 
 ?>

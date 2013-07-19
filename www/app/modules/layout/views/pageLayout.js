@@ -23,10 +23,7 @@ define([
             
             var collection =this.collection.toJSON();
             var ind = Math.floor(Math.random() * 9);
-            this.current={
-                settings:["skai.gr","real.gr","newsbeast.gr","kathimerini.gr","enet.gr","protothema.gr","tovima.gr","rizospastis.gr","metrogreece.gr","lifo.gr"]
-            }
-	        
+	        console.log(collection);
 	        $('#hero').css({
 	            "background-image":"url('"+collection[0][this.current.settings[ind]][0].hero+"')",
 	        }).html(hero({
@@ -42,19 +39,27 @@ define([
 	    },
         
         loadArticle : function(e){
+            $('#site-wrapper').animate({left: '-100%'}, 200);
             
             var itemId=$(e.currentTarget).attr('data-itemid').split('_item_'),
                 key =itemId[0],
                 val =itemId[1]; 
+            this.current.article = this.collection.toJSON()[0][key][val];
             
             if(!this.article){
                 this.article = new Article({collection: new ArticleCollection()});
             }
-            var url = this.collection.toJSON()[0][key][val].url;
-            this.article.collection.getData(url);
+            
+            
+            if(this.current.article.content){
+                this.article.renderDirectly(this.current.article);
+            }
+            else{
+                
+                this.article.collection.getData(this.current.article.url,key);
+            }
             
         }
-         
        
     });
 

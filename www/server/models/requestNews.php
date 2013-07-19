@@ -73,7 +73,8 @@ class requestNews{
             $channelLink = $xml->channel->link;
             $channelImage = $xml->channel->image->url;
             
-			$url   = $xml->channel->item[$i]->guid;
+                      
+            $content='';
 			$title = $xml->channel->item[$i]->title;
 			$desc  = $xml->channel->item[$i]->description;
             
@@ -81,15 +82,29 @@ class requestNews{
             {
             case "newsbeast.gr":
               $hero  = "http://www.newsbeast.gr/".$this->extractImageElem($desc);
+              $url   = $xml->channel->item[$i]->guid;
               break;
             case "protothema.gr":
               $hero  = $xml->channel->item[$i]->image;
+              $url   = $xml->channel->item[$i]->guid;
               break;
-            default:
+            case "real.gr":
+              $url   = $xml->channel->item[$i]->guid;
+              $tempUrl=explode("real.gr/",$url);
+              $url=$tempUrl[0]."real.gr/DefaultArthro.aspx".$tempUrl[1];
               $hero  = $this->extractImageElem($desc);
+              break;  
+             case "info-war.gr":
+                $content =$xml->channel->item[$i]->content;
+                $url   = $xml->channel->item[$i]->guid;
+                $hero  = $this->extractImageElem($content);  
+                break;
+            default:
+              $url   = $xml->channel->item[$i]->guid;
+              $hero  = $this->extractImageElem($desc);         
             }
 			
-			$itemArray[$i] = array("itemId"=>$key."_item_".$i, "channelTitle"=>"$channelTitle", "channelLink"=>"$channelLink", "channelImage"=>"$channelImage", "url"=>"$url", "title"=>"$title", "desc"=>"$desc","hero"=>"$hero");
+			$itemArray[$i] = array("itemId"=>$key."_item_".$i, "channelTitle"=>"$channelTitle", "channelLink"=>"$channelLink", "channelImage"=>"$channelImage", "url"=>"$url", "title"=>"$title", "desc"=>"$desc","hero"=>"$hero","content"=>"$content");
 			
 	    }
 		
@@ -116,7 +131,7 @@ class requestNews{
 		
 	}
 	
-	function getContent($url){
+	function getContent($url,$key){
 		
 		$curl = curl_init(); 
 		curl_setopt($curl, CURLOPT_URL, $url);  
@@ -124,10 +139,66 @@ class requestNews{
 		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);  
 		$str = curl_exec($curl);  
 		curl_close($curl);  
-		$content = str_get_html($str);
-		$plainText= $content->find('article',0)->plaintext;
-        //FOR SKAI	 
-		return array("content"=>"$plainText");
+        
+        $result = $this->parseArticle($key,$str);
+	
+		return $this->parseArticle($key,$str);
 	}
+    
+    private function parseArticle($key,$str){
+        
+         $result = array();
+         switch ($key){
+            case "skai.gr":
+                $content = str_get_html($str);
+                $plainText= $content->find('article',0);
+                $mainImage = $content->find('figure',0)->find('img',0)->src;
+                $result=array("content"=>"$plainText", "mainImage"=>"$mainImage");
+              break;
+            case "real.gr":
+                $content = str_get_html($str);
+                $plainText = $content->find("#intext_content_tag",0)->find('.article_pure_text',1);
+                $mainImage = $content->find("#intext_content_tag",0)->find('img',0)->src;
+                $result=array("content"=>"$plainText", "mainImage"=>"$mainImage");
+             
+              break;
+             
+            case "newsbeast.gr":
+                $content = str_get_html($str);
+                $plainText = $content->find("#intext_content_tag",0)->innertext;
+                $mainImage = "http://www.newsbeast.gr/".$content->find(".article",0)->find(".article_sidebar",0)->find('img',0)->src;
+                $result=array("content"=>"$plainText", "mainImage"=>"$mainImage");
+             
+              break;
+             
+               
+            case "enet.gr":
+                $content = str_get_html($str);
+                
+                $mainImage = $content->find("#post-content",0)->find(".imageItemMEDIUM",0)->find('img',0)->src;
+                $txt = $content->find("#post-content",0);
+                $txt->find(".imageItemMEDIUM",0)->find('img',0)->outertext = '';
+             
+                $result=array("content"=>"$txt", "mainImage"=>"$mainImage");
+             
+              break;
+            
+             case "protothema.gr":
+                $content = str_get_html($str);
+                    
+                $plainText = $content->find(".article-content",0);
+                $plainText->find(".adtext",0)->outertext = '';
+                $mainImage = $content->find('a[rel=mainphotos]',0)->find('img',0)->src;
+                $result=array("content"=>"$plainText", "mainImage"=>"$mainImage");
+             
+              break;
+             
+                 
+            default:
+              $result = array();
+        }
+        
+        return $result;
+    }
 
 }

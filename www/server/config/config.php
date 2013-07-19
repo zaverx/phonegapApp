@@ -12,11 +12,11 @@
 	define('EXQUISITESTORY_USER_TOKEN','948634452-t8fOFbogONQNZN1UIlmOfRtlKYqfJsVJNuyfOI0a');
 	define('EXQUISITESTORY_USER_SECRET','8kAUZh1AJh5nwivODdc8JXxOM3KUijYoOZTFUoDOdM');
 	define('HASHTAG', ' #parlour');
-	
+
 	define('DB_HOST', 'localhost');
-	define('DB_USER', 'zaverx1');
-	define('DB_PASSWORD', 'exq111');
-	define('DB_NAME', 'aboatlorry_parlour');		
+	define('DB_USER', 'root');
+	define('DB_PASSWORD', '');
+	define('DB_NAME', 'newsmashup');		
 	
 	//ini_set('display_errors',1); 
  	//error_reporting(E_ALL);

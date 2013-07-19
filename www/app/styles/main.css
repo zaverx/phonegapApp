@@ -46,11 +46,47 @@ body, html {
     white-space: normal;
 }
 
+.left {
+    background: #aaa;
+    float: left;
+    display:inline-block;
+}
+        
+.right {
+    display:inline-block;
+    background: cyan;
+    overflow: hidden;
+}
+     
 /****************************
-* PAGE WRAPPER
+* CONTENT CONTAINER
 ****************************/
 
-#page-wrapper{
+#content{
+  
+    position:relative;
+    height:100%;
+    overflow:hidden;
+    border:#000 1px solid;
+        
+}
+
+/****************************
+* SITE WRAPPER
+****************************/
+
+#site-wrapper{
+    position:absolute;
+    width:100%;
+    height:100%;
+    
+}
+
+/****************************
+* MAIN LAYOUT WRAPPER
+****************************/
+
+#layout-wrapper{
     width:100%;
     min-height:100%;
     height:auto;
@@ -99,19 +135,26 @@ body, html {
 
 #hero-title{
     color:#fff;
-    height:100px;
     width:90%;
-    position:absolute;
+    position:relative;
     opacity:0.8;
     left:10px;
-    bottom:150px;
+    top:70%;
     font-size: 26px;
     font-weight: bold;
     text-shadow: 1px 1px 1px #666;
     overflow: hidden;
+    word-wrap:break-word;
     height:96px;
 }
 
+#article-hero{
+    width:100%;
+    height:45%;
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:cover;
+}
 /****************************
 * ROW
 ****************************/
@@ -122,6 +165,25 @@ body, html {
     background-color:#555;
 }
 
+.thumb-image{
+    height:80px;
+}
+
+.thumb-caption{
+    position:absolute;
+    z-index:3;
+    top:36px;
+    width:80px;
+    height:44px;
+    padding:2px;
+    line-height:14px;
+    overflow: hidden;
+    word-wrap:break-word;    
+    white-space:normal;
+    background:rgba(0,0,0,0.6);
+    color:#fff;
+    font-size:11px;
+}
 
 .row-header{
     background:#333; 
@@ -155,8 +217,7 @@ body, html {
 /****************************
 * ARTICLE IFRAME
 ****************************/
-#article-wrapper,
-#article-frame{
+#article-wrapper{
     width:100%;
     height:100%;
     position:absolute;
@@ -167,14 +228,16 @@ body, html {
 }
 
 #article-wrapper{
+    
     background-color:#fff;
     font-size:12px;
     word-wrap: break-word;
     text-align:left;
-    padding:10px;
+    
 }
 
 #article-frame {
+    
     zoom: 0.75;
     -moz-transform: scale(0.75);
     -moz-transform-origin: 0 0;
@@ -184,3 +247,16 @@ body, html {
     -webkit-transform-origin: 0 0;
 }
 
+#article-title{
+    
+    color:#000;
+    font-size:22px;
+    font-weight:bold;
+    margin:10px;
+}
+
+#article-content {
+    padding:10px;
+    overflow-x:hidden;
+    width:100%;
+}

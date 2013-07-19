@@ -1,25 +1,68 @@
 <html>
 <head>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <style>
-#left {
+.left {
     background: #aaa;
     float: left;
-    width:90%;  
-        
+    width:90%;
+    display:inline-block;
+            
         
 }
-#right {
+.right {
+    display:inline-block;
+    width:100%;
     background: cyan;
     overflow: hidden;
+        
        
 }
-
+#container{
+        white-space: nowrap;
+        position:relative;
+        width:300px;
+        height:400px;
+        overflow:hidden;
+        border:#000 1px solid;
+        
+    }
+#someDiv{
+        position:absolute;
+        width:100%;
+    }
+    
 </style>
+    <script>
+        $(document).ready(function(){
+            $('#click').on("click",function(){
+                $('#someDiv').animate({left: '-400px'}, 500);
+                
+            });
+    
+        });
+    </script>
 </head>
 <body>
+    <!--
 <div id="container">
     <div id="left"> This div is as big as it's content</div>
     <div id="right"> rest of space<br />rest of space</div>
 </div>
+    -->
+
+<div id="container">
+    
+    <div id="someDiv">
+        <div id="page-wrapper" class="v-scroll left">
+	       <div id="hero"></div>
+	       <div id="tab-content">wqqwqw</div>
+        </div>
+        <div id="article-wrapper" class="wrapword v-scroll right">qweqweqwe</div>
+    </div>
+    
+</div>
+    
+    <div id="click">CLICK ME</div>
 </body>
 </html>
