@@ -34,20 +34,26 @@ class Controller {
         
 	}
     
+
+    
+    
+    
     function makeRequest(){
         
         $feed_array= array(
-             "info-war.gr"=>"http://info-war.gr/feed/",
-             "real.gr"=>"http://www.real.gr/Rss.aspx?pid=143",
-             "newsbeast.gr" =>"http://www.newsbeast.gr/feeds/home",
-             "kathimerini.gr" =>"http://ws.kathimerini.gr/xml_files/enews.xml",
-             "enet.gr" =>"http://www.enet.gr/rss?i=news.el.article",
-             "protothema.gr" =>"http://www.protothema.gr/rss/news/general/",
-             "tovima.gr" =>"http://www.tovima.gr/feed/allnews/",
-             "rizospastis.gr" =>"http://www.rizospastis.gr/wwwengine/rssFeed.do?channel=Top",
-             "metrogreece.gr" =>"http://www.metrogreece.gr/Rss/tabid/90/rssid/2/Default.aspx",
-             "lifo.gr" =>"http://www.lifo.gr/blogs.rss",
-            "skai.gr" =>"http://feeds.feedburner.com/skai/Uulu?format=xml"
+             "info-war.gr"    => "http://info-war.gr/feed/",
+             "real.gr"        => "http://www.real.gr/Rss.aspx?pid=143",
+             "newsbeast.gr"   => "http://www.newsbeast.gr/feeds/home",
+             "kathimerini.gr" => "http://ws.kathimerini.gr/xml_files/enews.xml",
+             "enet.gr"        => "http://www.enet.gr/rss?i=news.el.article",
+             "protothema.gr"  => "http://www.protothema.gr/rss/news/general/",
+             "tovima.gr"      => "http://www.tovima.gr/feed/allnews/",
+             "rizospastis.gr" => "http://www.rizospastis.gr/wwwengine/rssFeed.do?channel=Top",
+             "metrogreece.gr" => "http://www.metrogreece.gr/Rss/tabid/90/rssid/2/Default.aspx",
+             "lifo.gr"        => "http://www.lifo.gr/blogs.rss",
+             "skai.gr"        => "http://feeds.feedburner.com/skai/Uulu?format=xml",
+             "newsbomb.gr"    => "http://feeds.feedburner.com/Newsbombgr?format=xml"
+            
         );
         return  $this->news->multiple_threads_request($feed_array);   
         
@@ -57,5 +63,4 @@ $flag = @$_POST['flag'];
 $lnk = @$_POST['lnk'];
 $key = @$_POST['key'];
 $controller = new Controller($flag,$lnk,$key);
-
 ?>

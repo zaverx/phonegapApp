@@ -23,6 +23,7 @@ define([
         
         showMain : function(){
             $('#site-wrapper').animate({left: '0'}, 200);
+            this.dispatch.trigger("closeArticle");
         }
          
        

@@ -1,29 +1,25 @@
 define([
     'backbone',
-    'tpl!templates/tabs.html',
-    'tpl!templates/hero.html',
-    'modules/articles/views/article',
-    'modules/articles/collections/ArticleCollection'
+    'tpl!templates/hero.html'
 ],
 	
-	function(backbone,tabs,hero, Article, ArticleCollection) {
+	function(backbone,hero) {
 
   	return Backbone.View.extend({
-        el:'#tab-content',
-        template:tabs,				
+        el:'#hero',
+        template:hero,				
 	    initialize : function() {
-            this.listenTo(this.collection, "sync", this.onRender);
+           
 	    },
         
         events : {
             "click .row-item" : "loadArticle"
         },
         
-	    onRender : function(){
+	    onRender : function(collection){
             
-            var collection =this.collection.toJSON(),
-                ind = Math.floor(Math.random() * this.current.settings.length);
             
+            var ind = Math.floor(Math.random() * 9);
 	        
 	        $('#hero').css({
 	            "background-image":"url('"+collection[0][this.current.settings[ind]][0].hero+"')",
@@ -31,12 +27,7 @@ define([
 	            title:collection[0][this.current.settings[ind]][0].title
 	        }));
 	        
-	        this.$el.html(this.template({
-                response:collection[0],
-                rows : this.current.settings
-                
-            }));  
-	     
+	        
 	    },
         
         loadArticle : function(e){
@@ -51,7 +42,7 @@ define([
                 this.article = new Article({collection: new ArticleCollection()});
             }
             
-            
+            console.log("render directly", this.current.article)
             if(this.current.article.content){
                 
                 this.article.renderDirectly(this.current.article);

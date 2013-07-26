@@ -7,7 +7,8 @@ require.config({
 
   paths: {
     // Put paths here.
-      tpl: "../vendor/js/libs/tpl"
+      tpl: "../vendor/js/libs/tpl",
+      pullRefresh : "../vendor/js/libs/pullRefresh"
   },
 
   shim: {

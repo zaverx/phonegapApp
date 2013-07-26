@@ -1,0 +1,127 @@
+<html>
+<head>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<style>
+
+</style>
+    <script>
+       
+
+(function( $ ){
+    
+    /* Plugin handlers and settings.*/
+    var settings ={
+            refreshContent : '.refresh-content',
+            contentWrapper : '.content-wrapper'   
+    };
+        
+            
+    $.pullRefreshDone = function(){
+        
+    }
+    
+	$.fn.pullRefresh = function( params ) {
+        
+        var container    = $(this),
+            content      = $(settings.contentWrapper),
+            handle       = $(settings.refreshContent),
+			handleHeight = handle.height();
+        
+            /* Push content up 1px to let you scroll down initially  */
+			content.on('touchstart', function () {
+                if (container.scrollTop() == 0) {
+                    container.scrollTop(1);
+				}
+			}).on('touchmove', function () {
+                var topPos =  container.scrollTop();
+                console.log(topPos)
+                //if(-topPos)
+			   handle.css("position",'static');  
+			}).on('touchend', function() {
+                 var topPos =  container.scrollTop();
+                if(topPos>0){
+                    handle.css("position",'absolute');
+                    container.scrollTop(1);
+                    return;
+                }
+                if(params.callback){
+                    params.callback();  
+                }
+			});
+		
+
+	};
+})( jQuery );
+        
+    function test(){
+        console.log("in test");
+    }       
+    $(document).ready(function(){
+       $('.container').pullRefresh({callback:test});
+       //$.pullRefreshDone();
+    });
+    
+    </script>
+    <style>
+        
+    .container {
+        height: 100%;
+        position: relative;
+    }
+        
+   .scroll{
+        overflow-y: auto;
+        overflow-x: hidden;   
+        -webkit-overflow-scrolling: touch;
+    }
+        
+   .content-wrapper{
+        min-height: 100%;
+        padding-bottom: 1px;
+        
+    }
+
+    .refresh-content{
+        position: absolute; 
+        line-height: 40px;
+        height: 40px;
+        top: -40px;
+        width: 100%; 
+        left: 0; 
+        overflow-y: auto;
+        
+    }
+    </style>
+    
+</head>
+<body>
+
+<div class="container scroll">
+    <div class="refresh-content"> RELEASE TO RERFESH</div>
+    <div class="content-wrapper" >
+            asdasdas<p>asdasdas</p>
+        asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>
+        asdasdasdas
+         asdasdas<p>asdasdas</p>
+        asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>
+        asdasdasdas asdasdas<p>asdasdas</p>
+        asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>
+        asdasdasdas asdasdas<p>asdasdas</p>
+        asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>
+        asdasdasdas asdasdas<p>asdasdas</p>
+        asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>
+        asdasdasdas asdasdas<p>asdasdas</p>
+        asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>
+        asdasdasdas asdasdas<p>asdasdas</p>
+        asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>
+        asdasdasdas asdasdas<p>asdasdas</p>
+        asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>
+        asdasdasdas asdasdas<p>asdasdas</p>
+        asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>asdasdas<p>asdasdas</p>
+        asdasdasdas
+    </div>
+</div>
+    
+    <div id="click">CLICK ME</div>
+</body>
+</html>

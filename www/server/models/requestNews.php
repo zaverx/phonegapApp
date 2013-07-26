@@ -71,10 +71,8 @@ class requestNews{
             
 	    	$channelTitle = $xml->channel->title;
             $channelLink = $xml->channel->link;
-            $channelImage = $xml->channel->image->url;
+            $channelImage = $xml->channel->image->url;                  
             
-                      
-            $content='';
 			$title = $xml->channel->item[$i]->title;
 			$desc  = $xml->channel->item[$i]->description;
             
@@ -83,25 +81,56 @@ class requestNews{
             case "newsbeast.gr":
               $hero  = "http://www.newsbeast.gr/".$this->extractImageElem($desc);
               $url   = $xml->channel->item[$i]->guid;
+              $content='';
               break;
             case "protothema.gr":
               $hero  = $xml->channel->item[$i]->image;
               $url   = $xml->channel->item[$i]->guid;
+              $content='';
               break;
             case "real.gr":
               $url   = $xml->channel->item[$i]->guid;
               $tempUrl=explode("real.gr/",$url);
               $url=$tempUrl[0]."real.gr/DefaultArthro.aspx".$tempUrl[1];
               $hero  = $this->extractImageElem($desc);
+              $content='';
               break;  
              case "info-war.gr":
-                $content =$xml->channel->item[$i]->content;
+                
+                $content =$xml->channel->item[$i]->children("content", true);
                 $url   = $xml->channel->item[$i]->guid;
                 $hero  = $this->extractImageElem($content);  
-                break;
+              break;
+             case "metrogreece.gr":
+                
+                $content='';
+                $url   = $xml->channel->item[$i]->link;
+                $hero  = "http://www.metrogreece.gr/".$this->extractImageElem($desc);  
+              break;   
+              
+              case "lifo.gr":
+                
+                $content='';
+                $url   = $xml->channel->item[$i]->link;
+                $hero  = "http://www.lifo.gr/".$this->extractImageElem($desc);  
+              break;   
+                
+                
+              case "newsbomb.gr":
+               
+                $content=$desc;
+                $url   = $xml->channel->item[$i]->guid;
+                $hero  = $this->extractImageElem($desc);  
+                
+                
+              break;   
+                
+                
+                
             default:
               $url   = $xml->channel->item[$i]->guid;
-              $hero  = $this->extractImageElem($desc);         
+              $hero  = $this->extractImageElem($desc);    
+              $content='';
             }
 			
 			$itemArray[$i] = array("itemId"=>$key."_item_".$i, "channelTitle"=>"$channelTitle", "channelLink"=>"$channelLink", "channelImage"=>"$channelImage", "url"=>"$url", "title"=>"$title", "desc"=>"$desc","hero"=>"$hero","content"=>"$content");
@@ -165,8 +194,14 @@ class requestNews{
              
             case "newsbeast.gr":
                 $content = str_get_html($str);
-                $plainText = $content->find("#intext_content_tag",0)->innertext;
+                $plainText = $content->find("#intext_content_tag",0);
                 $mainImage = "http://www.newsbeast.gr/".$content->find(".article",0)->find(".article_sidebar",0)->find('img',0)->src;
+             
+               foreach($plainText->find('img') as $element){
+                    $element->src =   "http://www.newsbeast.gr/".$element->src;
+                    $element->width =   "100%";
+                }
+                $plainText = $plainText->innertext;
                 $result=array("content"=>"$plainText", "mainImage"=>"$mainImage");
              
               break;
@@ -193,6 +228,45 @@ class requestNews{
              
               break;
              
+              case "tovima.gr":
+                $content = str_get_html($str);
+             
+                $plainText = $content->find(".article_text",0)->innertext;
+                $mainImage = $content->find('.article_photo',0)->find('img',0)->src;
+                $result=array("content"=>"$plainText", "mainImage"=>"$mainImage");
+             
+              break;
+              
+              case "rizospastis.gr":
+                $content = str_get_html($str);
+             
+                $plainText = $content->find(".story_body",0);
+                $plainText->find(".image",0)->outertext = '';
+             
+                $mainImage = "http://www.rizospastis.gr/wwwengine/".$content->find(".story_body",0)->find('.image',0)->find('img',0)->src;
+                $result=array("content"=>"$plainText", "mainImage"=>"$mainImage");
+             
+              break;
+             
+              case "metrogreece.gr":
+                $content = str_get_html($str);
+             
+                $plainText = $content->find(".detail_standard_article_text",0)->innertext;
+                $mainImage = "http://www.metrogreece.gr/".$content->find("#gallery-wrapper",0)->find('img',0)->src;
+                $result=array("content"=>"$plainText", "mainImage"=>"$mainImage");
+             
+               break;
+               
+               case "lifo.gr":
+                $content = str_get_html($str);
+             
+                $plainText = $content->find("#maintext",0);
+                $plainText->find(".imgWrap",0)->outertext = '';
+             
+                $mainImage = "http://www.lifo.gr/".$content->find(".imgWrap",0)->find('img',0)->src;
+                $result=array("content"=>"$plainText", "mainImage"=>"$mainImage");
+             
+               break;
                  
             default:
               $result = array();

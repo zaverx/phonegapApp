@@ -2,7 +2,7 @@
 // assist with testing.
 require(["config"], function() {
 	// Kick off the application.
-	require(["app", "router", "extensions/common"], function(app, Router, common) {
+	require(["app", "router", "extensions/common", "pullRefresh"], function(app, Router, common) {
         
 		// Define your master router on the application namespace and trigger all
 		// navigation from this instance.
@@ -15,7 +15,7 @@ require(["config"], function() {
 			root: app.root
 		});
         
-          
+        
     $(document).on("click", "a[href]:not([data-bypass])", function(evt) {
 
         // Get the absolute anchor href.

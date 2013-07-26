@@ -3,7 +3,7 @@
 	%>
 <div class="row-header"> <%=rows[j]%></div>
 <div class="tab-content h-scroll">
-<ul class="floated-list" style="position:absolute;">
+<ul id="list_<%=j%>" class="floated-list" style="position:absolute;">
     
 	<% for(var i=0; i < response[rows[j]].length; i++){
 		var img   = response[rows[j]][i].hero;

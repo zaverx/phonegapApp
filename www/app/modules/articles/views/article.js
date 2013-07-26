@@ -7,9 +7,12 @@ define([
 	function(backbone,IframeTemplate,ArticleTemplate) {
 
   	return Backbone.View.extend({
-        el :'#article-wrapper',
+        
+        id:'article-view',
+        tagName:'span',
 	    initialize : function() {
            this.listenTo(this.collection, "sync", this.onRender);
+           this.listenTo(this.dispatch, "closeArticle", this.onClose);
 	    },
         renderDirectly : function(obj){
               this.showContent([obj]);
@@ -20,6 +23,8 @@ define([
         
         showContent : function(collection){
             
+            $('#article-wrapper').html(this.$el);            
+            
             if(_.isEmpty(collection)){
                 this.$el.html(IframeTemplate({
                     target :this.current.article.url
@@ -27,11 +32,11 @@ define([
             }
             else{
                 
-                console.log(collection)
                 this.$el.html(ArticleTemplate({
                     content : collection[0].content,
                     articleTitle : this.current.article.title
                 }));  
+                
                 
                 $('#article-hero').show();
                 
@@ -48,6 +53,10 @@ define([
                 this.$el.scrollTop(0);
                 
             }
+        },
+        
+        onClose : function(){
+            this.$el.html("");
         }
        
     });
